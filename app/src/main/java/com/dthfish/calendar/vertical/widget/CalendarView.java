@@ -1,4 +1,4 @@
-package com.dthfish.calendar.widget;
+package com.dthfish.calendar.vertical.widget;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;

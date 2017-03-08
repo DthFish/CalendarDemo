@@ -1,10 +1,10 @@
-package com.dthfish.calendar.presenter;
+package com.dthfish.calendar.vertical.presenter;
 
 import android.content.Context;
 
-import com.dthfish.calendar.view.IRoomStatusView;
-import com.dthfish.calendar.widget.CalendarItem;
-import com.dthfish.calendar.widget.CalendarUtils;
+import com.dthfish.calendar.vertical.view.IRoomStatusView;
+import com.dthfish.calendar.vertical.widget.CalendarItem;
+import com.dthfish.calendar.vertical.widget.CalendarUtils;
 
 import java.util.Calendar;
 

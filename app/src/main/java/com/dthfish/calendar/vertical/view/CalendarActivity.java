@@ -1,4 +1,4 @@
-package com.dthfish.calendar.view;
+package com.dthfish.calendar.vertical.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,9 +8,10 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.dthfish.calendar.R;
-import com.dthfish.calendar.presenter.RoomStatusPresenter;
-import com.dthfish.calendar.widget.CalendarItem;
-import com.dthfish.calendar.widget.CalendarView;
+import com.dthfish.calendar.vertical.IRoomStatusView;
+import com.dthfish.calendar.vertical.presenter.RoomStatusPresenter;
+import com.dthfish.calendar.vertical.widget.CalendarItem;
+import com.dthfish.calendar.vertical.widget.CalendarView;
 
 import java.util.ArrayList;
 import java.util.List;

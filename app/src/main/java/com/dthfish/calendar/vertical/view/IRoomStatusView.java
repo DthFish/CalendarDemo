@@ -1,7 +1,7 @@
-package com.dthfish.calendar.view;
+package com.dthfish.calendar.vertical.view;
 
 
-import com.dthfish.calendar.widget.CalendarItem;
+import com.dthfish.calendar.vertical.widget.CalendarItem;
 
 import java.util.List;
 
