@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.dthfish.calendar.R;
 import com.dthfish.calendar.horizontal.adapter.MonthAdapter;
@@ -24,6 +27,7 @@ public class HorizontalCalendarActivity extends AppCompatActivity implements IHo
     private ViewPager mVp;
     private MonthAdapter mAdapter;
     private HorizontalCalendarPresenter mPresenter;
+    private Button mBtn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,10 +46,20 @@ public class HorizontalCalendarActivity extends AppCompatActivity implements IHo
         integers.add(1);
         integers.add(7);
         mAdapter.setSelectWeekday(integers);
+        List<CalendarItem> calendarItems = mAdapter.getLists().get(mVp.getCurrentItem());
     }
 
     private void initView() {
         mVp = (ViewPager) findViewById(R.id.vp);
+        mBtn = (Button) findViewById(R.id.btn);
+        mBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<CalendarItem> calendarItems = mAdapter.getLists().get(mVp.getCurrentItem());
+                CalendarItem calendarItem = calendarItems.get(8);
+                Toast.makeText(HorizontalCalendarActivity.this, "" + calendarItem.date, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

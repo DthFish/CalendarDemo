@@ -4,16 +4,12 @@ import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.dthfish.calendar.R;
 import com.dthfish.calendar.CalendarItem;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.dthfish.calendar.R;
 
 
 public class CalendarView extends RelativeLayout {
@@ -54,16 +50,15 @@ public class CalendarView extends RelativeLayout {
             }
         });
         mRvCalendar.setLayoutManager(mGridLayoutManager);
-        mAdapter = new CalendarAdapter(context);
-        mRvCalendar.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(mListener);
+//        mAdapter = new CalendarAdapter(context);
+//        mRvCalendar.setAdapter(mAdapter);
+//        mAdapter.setOnItemClickListener(mListener);
     }
 
-    public void showWeek(boolean show){
-        mLlWeek.setVisibility(show?VISIBLE:GONE);
+    public void showWeek(boolean show) {
+        mLlWeek.setVisibility(show ? VISIBLE : GONE);
     }
 
-    private SparseArray<CalendarItem> mSelectedItems = new SparseArray<>();
     private CalendarAdapter.OnItemClickListener mListener = new CalendarAdapter.OnItemClickListener() {
         @Override
         public void onItemClick(int previousPosition, int currentPosition) {
@@ -76,34 +71,34 @@ public class CalendarView extends RelativeLayout {
             if (-1 == previousPosition) {//未选择状态:不存在批量状态
                 curItem.isSelected = true;
 
-                mSelectedItems.put(currentPosition, curItem);
+                mAdapter.putSelectedItem(currentPosition, curItem);
                 mAdapter.notifyItemChanged(currentPosition);
             } else if (previousPosition == currentPosition) {//两次点击相同:1.已经有批量选择2.没有
-                int size = mSelectedItems.size();
+                int size = mAdapter.selectedCount();
                 if (size > 1) {
-                    clearAllSelected();
+                    mAdapter.clearAllSelected();
                     curItem.isSelected = true;
-                    mSelectedItems.put(currentPosition, curItem);
+                    mAdapter.putSelectedItem(currentPosition, curItem);
                     mAdapter.notifyItemChanged(currentPosition);
                 } else {
                     if (curItem.isSelected) {
                         curItem.isSelected = false;
-                        mSelectedItems.remove(currentPosition);
+                        mAdapter.removeSelectedItem(currentPosition);
                     } else {
                         curItem.isSelected = true;
-                        mSelectedItems.put(currentPosition, curItem);
+                        mAdapter.putSelectedItem(currentPosition, curItem);
                     }
                     mAdapter.notifyItemChanged(currentPosition);
                 }
             } else if (previousPosition > currentPosition) {//1.上次点击为选中一项，2.上次点击为取消一项
 
-                int size = mSelectedItems.size();
+                int size = mAdapter.selectedCount();
                 if (size > 1) {
                     //上一次必定为选中
                     //清除选择，选中当前项目
-                    clearAllSelected();
+                    mAdapter.clearAllSelected();
                     curItem.isSelected = true;
-                    mSelectedItems.put(currentPosition, curItem);
+                    mAdapter.putSelectedItem(currentPosition, curItem);
                     mAdapter.notifyItemChanged(currentPosition);
 
                 } else {
@@ -116,11 +111,11 @@ public class CalendarView extends RelativeLayout {
             } else {//批量选择：1.上次点击为选中一项，2.上次点击为取消一项
                 if (preItem.isSelected) {
 
-                    int size = mSelectedItems.size();//必须如此，直接用size()会有问题
+                    int size = mAdapter.selectedCount();//必须如此，直接用size()会有问题
                     if (size > 1) {
-                        clearAllSelected();
+                        mAdapter.clearAllSelected();
                         curItem.isSelected = true;
-                        mSelectedItems.put(currentPosition, curItem);
+                        mAdapter.putSelectedItem(currentPosition, curItem);
                         mAdapter.notifyItemChanged(currentPosition);
                     } else {
 //                        if (size == 1) {
@@ -131,7 +126,7 @@ public class CalendarView extends RelativeLayout {
                             CalendarItem item = mAdapter.getItem(i);
                             if (item.isSelectable) {
                                 item.isSelected = true;
-                                mSelectedItems.put(i, item);
+                                mAdapter.putSelectedItem(i, item);
                             }
                         }
                         mAdapter.notifyItemRangeChanged(previousPosition, currentPosition - previousPosition + 1);
@@ -144,44 +139,9 @@ public class CalendarView extends RelativeLayout {
         }
     };
 
-    public List<CalendarItem> getSelectDates(){
-        ArrayList<CalendarItem> selectedCalendarItems = new ArrayList<>();
-        for (int i = 0; i < mSelectedItems.size(); i++) {
-            CalendarItem item = mSelectedItems.valueAt(i);
-            if(mAdapter.getSelectedWeekdays().contains(item.getWeekday())){
-                selectedCalendarItems.add(item);
-            }
-        }
-        return selectedCalendarItems;
+    public void setAdapter(CalendarAdapter adapter) {
+        mAdapter = adapter;
+        mRvCalendar.setAdapter(mAdapter);
     }
-
-    public void clearAllSelected() {
-        for (int i = 0; i < mSelectedItems.size(); i++) {
-            CalendarItem item = mSelectedItems.valueAt(i);
-            item.isSelected = false;
-        }
-        //后期可能涉及筛选所以范围尽量大
-        int startIndex = mSelectedItems.keyAt(0);
-        int index = mSelectedItems.size() - 1;
-        if (index < 0) {
-            return;
-        }
-        int endIndex = mSelectedItems.keyAt(index);
-        mSelectedItems.clear();
-        int itemCount = endIndex - startIndex + 1;
-        if (startIndex < 0 || endIndex < 0 || itemCount < 0) {
-            return;
-        }
-        mAdapter.notifyItemRangeChanged(startIndex, itemCount);
-    }
-
-    public void setData(List<CalendarItem> data) {
-        mAdapter.setData(data);
-    }
-
-    public void selectedWeekday(ArrayList<Integer> days){
-        mAdapter.setSelectWeekday(days);
-    }
-
 
 }

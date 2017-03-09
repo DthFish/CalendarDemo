@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.dthfish.calendar.R;
 import com.dthfish.calendar.CalendarItem;
+import com.dthfish.calendar.horizontal.widget.CalendarAdapter;
 import com.dthfish.calendar.horizontal.widget.CalendarView;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class MonthAdapter extends PagerAdapter {
     private List<List<CalendarItem>> mLists = new ArrayList<>();
     private SparseArray<View> mViews = new SparseArray<>();
     private SparseArray<CalendarView> mCalendarViews = new SparseArray<>();
+    private SparseArray<CalendarAdapter> mRvAdapters = new SparseArray<>();
     public MonthAdapter(Context context) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
@@ -53,8 +55,13 @@ public class MonthAdapter extends PagerAdapter {
         CalendarView calendarView = (CalendarView) view.findViewById(R.id.cv);
         calendarView.showWeek(false);
         if (isNew) {
-            calendarView.setData(mLists.get(position));
-            calendarView.selectedWeekday(mSelectedWeekdays);
+//            calendarView.setData(mLists.get(position));
+            CalendarAdapter adapter = new CalendarAdapter(mContext);
+            adapter.setData(mLists.get(position));
+            adapter.setSelectWeekday(mSelectedWeekdays);
+//            calendarView.selectedWeekday(mSelectedWeekdays);
+            calendarView.setAdapter(adapter);
+            mRvAdapters.put(position,adapter);
             mViews.put(position, view);
             mCalendarViews.put(position,calendarView);
         }
@@ -63,28 +70,29 @@ public class MonthAdapter extends PagerAdapter {
         return view;
     }
 
-    public void getSelectedDatas(){
+    public List<CalendarItem> getSelectedDatas(){
+        //TODO: return
         List<CalendarItem> selectedData =new ArrayList<>();
-        for (int i = 0,size = mCalendarViews.size(); i < size; i++) {
-            CalendarView view = mCalendarViews.valueAt(i);
-            selectedData.addAll(view.getSelectDates());
+        for (int i = 0,size = mRvAdapters.size(); i < size; i++) {
+            CalendarAdapter calendarAdapter = mRvAdapters.valueAt(i);
+            selectedData.addAll(calendarAdapter.getSelectData());
         }
+        return selectedData;
 
     }
     ArrayList<Integer> mSelectedWeekdays = new ArrayList<>();
     public void setSelectWeekday(ArrayList<Integer> days) {
         mSelectedWeekdays.clear();
         mSelectedWeekdays.addAll(days);
-        for (int i = 0,size = mCalendarViews.size(); i < size; i++) {
-            CalendarView view = mCalendarViews.valueAt(i);
-            view.selectedWeekday(days);
+        for (int i = 0,size = mRvAdapters.size(); i < size; i++) {
+            mRvAdapters.valueAt(i).setSelectWeekday(days);
         }
     }
 
     public void clearAllSelected(){
-        for (int i = 0,size = mCalendarViews.size(); i < size; i++) {
-            CalendarView view = mCalendarViews.valueAt(i);
-            view.clearAllSelected();
+        for (int i = 0,size = mRvAdapters.size(); i < size; i++) {
+            CalendarAdapter calendarAdapter = mRvAdapters.valueAt(i);
+            calendarAdapter.clearAllSelected();
         }
     }
 

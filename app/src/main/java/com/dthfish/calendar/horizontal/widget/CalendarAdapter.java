@@ -3,17 +3,19 @@ package com.dthfish.calendar.horizontal.widget;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 
-import com.dthfish.calendar.R;
 import com.dthfish.calendar.CalendarItem;
+import com.dthfish.calendar.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 public class CalendarAdapter extends RecyclerView.Adapter {
@@ -21,6 +23,8 @@ public class CalendarAdapter extends RecyclerView.Adapter {
     private Context mContext;
     private List<CalendarItem> mData = new ArrayList<>();
     private int mPreviousPosition = -1;//之前点击过的坐标
+
+    private SparseArray<CalendarItem> mSelectedItems = new SparseArray<>();
     /**
      * 1-7 用于控制周几的筛选
      */
@@ -180,6 +184,50 @@ public class CalendarAdapter extends RecyclerView.Adapter {
     public List<Integer> getSelectedWeekdays() {
 
         return mSelectedWeekdays;
+    }
+
+    public void putSelectedItem(int key,CalendarItem item){
+        mSelectedItems.put(key,item);
+    }
+
+    public void removeSelectedItem(int key){
+        mSelectedItems.remove(key);
+    }
+
+    public int selectedCount(){
+        return mSelectedItems.size();
+    }
+
+    public void clearAllSelected(){
+        for(int i =0,size = selectedCount();i < size; i++){
+            CalendarItem item = mSelectedItems.valueAt(i);
+            item.isSelected = false;
+        }
+
+        //后期可能涉及筛选所以范围尽量大
+        int startIndex = mSelectedItems.keyAt(0);
+        int index = selectedCount() - 1;
+        if (index < 0) {
+            return;
+        }
+        int endIndex = mSelectedItems.keyAt(index);
+        mSelectedItems.clear();
+        int itemCount = endIndex - startIndex + 1;
+        if (startIndex < 0 || endIndex < 0 || itemCount < 0) {
+            return;
+        }
+        notifyItemRangeChanged(startIndex, itemCount);
+    }
+
+    public List<CalendarItem> getSelectData(){
+        ArrayList<CalendarItem> selectedCalendarItems = new ArrayList<>();
+        for (int i = 0; i < selectedCount(); i++) {
+            CalendarItem item = mSelectedItems.valueAt(i);
+            if (getSelectedWeekdays().contains(item.getWeekday())) {
+                selectedCalendarItems.add(item);
+            }
+        }
+        return  selectedCalendarItems;
     }
 
 
