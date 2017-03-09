@@ -3,8 +3,8 @@ package com.dthfish.calendar.vertical.presenter;
 import android.content.Context;
 
 import com.dthfish.calendar.vertical.view.IRoomStatusView;
-import com.dthfish.calendar.vertical.widget.CalendarItem;
-import com.dthfish.calendar.vertical.widget.CalendarUtils;
+import com.dthfish.calendar.CalendarItem;
+import com.dthfish.calendar.CalendarUtils;
 
 import java.util.Calendar;
 

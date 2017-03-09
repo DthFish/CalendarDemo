@@ -1,4 +1,4 @@
-package com.dthfish.calendar.vertical.widget;
+package com.dthfish.calendar;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -100,7 +100,7 @@ public class CalendarUtils {
     }
 
     /**
-     * {@link com.android.gift.ebooking.product.view.RoomStatusActivity}用于获取日历数据
+     * {@link com.dthfish.calendar.vertical.view.CalendarActivity}用于获取日历数据
      * @param startCalendar
      * @param endCalendar
      * @return
@@ -152,6 +152,61 @@ public class CalendarUtils {
         }
 
         return calendarItems;
+    }
+
+    /**
+     * {@link com.dthfish.calendar.horizontal.view.HorizontalCalendarActivity}用于获取日历数据
+     * @param startCalendar
+     * @param endCalendar
+     * @return
+     */
+
+    public static List<List<CalendarItem>> getMonthRange(Calendar startCalendar, Calendar endCalendar, OnCreateDailyCalendarItem handle) {
+        if (startCalendar == null || endCalendar == null) {
+            throw new IllegalArgumentException("arguments should not be null!");
+        }
+        if (startCalendar.after(endCalendar)) {
+            throw new IllegalArgumentException("Start after end!");
+        }
+
+        if(startCalendar == endCalendar){
+            throw new IllegalArgumentException("Start and end can not be the same object!");
+        }
+        setToFirstDay(startCalendar);
+        setToFirstDay(endCalendar);
+        ArrayList<List<CalendarItem>> monthItems = new ArrayList<>();
+
+        for (; !startCalendar.after(endCalendar); startCalendar.add(MONTH, 1)) {
+            ArrayList<CalendarItem> month = new ArrayList<>();
+            //添加空白
+            int startDayOfWeek = startCalendar.get(DAY_OF_WEEK);
+            for (int i = 1; i < startDayOfWeek; i++) {
+                month.add(new CalendarItem(CalendarItem.TYPE_SPACE, ""));
+            }
+            //添加每月日期
+            int actualMaximum = startCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+            for (int i = 0; i < actualMaximum; i++) {
+                CalendarItem item = new CalendarItem(CalendarItem.TYPE_DAY, getTime(startCalendar.getTimeInMillis()), startCalendar.get(DAY_OF_WEEK));
+                if(handle != null){
+                    handle.handleItem(item,startCalendar.getTimeInMillis());
+                }
+                month.add(item);
+                Log.d("time:", "time: " + startCalendar.getTimeInMillis());
+                startCalendar.add(Calendar.DAY_OF_MONTH, 1);
+            }
+
+            startCalendar.add(Calendar.DAY_OF_MONTH, -1);
+            int EndDayOfWeek = startCalendar.get(DAY_OF_WEEK);
+
+            for (int i = 0; i < 7 - EndDayOfWeek; i++) {
+                month.add(new CalendarItem(CalendarItem.TYPE_SPACE, ""));
+            }
+            //设置为每月1号
+            setToFirstDay(startCalendar);
+            monthItems.add(month);
+        }
+
+        return monthItems;
     }
 
     public interface OnCreateDailyCalendarItem {

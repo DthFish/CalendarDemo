@@ -1,4 +1,4 @@
-package com.dthfish.calendar.vertical.widget;
+package com.dthfish.calendar.horizontal.widget;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 
-import com.dthfish.calendar.CalendarItem;
 import com.dthfish.calendar.R;
+import com.dthfish.calendar.CalendarItem;
 
 import java.util.ArrayList;
 import java.util.List;

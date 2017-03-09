@@ -1,4 +1,4 @@
-package com.dthfish.calendar.vertical.widget;
+package com.dthfish.calendar;
 
 import android.support.annotation.IntDef;
 

@@ -8,9 +8,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.dthfish.calendar.R;
-import com.dthfish.calendar.vertical.IRoomStatusView;
 import com.dthfish.calendar.vertical.presenter.RoomStatusPresenter;
-import com.dthfish.calendar.vertical.widget.CalendarItem;
+import com.dthfish.calendar.CalendarItem;
 import com.dthfish.calendar.vertical.widget.CalendarView;
 
 import java.util.ArrayList;

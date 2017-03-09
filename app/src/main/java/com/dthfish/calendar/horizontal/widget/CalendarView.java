@@ -1,4 +1,4 @@
-package com.dthfish.calendar.vertical.widget;
+package com.dthfish.calendar.horizontal.widget;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,8 +9,8 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.dthfish.calendar.CalendarItem;
 import com.dthfish.calendar.R;
+import com.dthfish.calendar.CalendarItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ public class CalendarView extends RelativeLayout {
     }
 
     private void init(Context context) {
-        LayoutInflater.from(context).inflate(R.layout.view_calendar, this);
+        LayoutInflater.from(context).inflate(R.layout.view_horizontal_calendar, this);
         mLlWeek = (LinearLayout) findViewById(R.id.ll_week);
         mRvCalendar = (RecyclerView) findViewById(R.id.rv_calendar);
         mGridLayoutManager = new GridLayoutManager(context, 7);

@@ -8,3 +8,5 @@
 /app/hash.txt
 /.repo
 /node_modules/
+app/libs/
+app/src/main/res/drawable/
