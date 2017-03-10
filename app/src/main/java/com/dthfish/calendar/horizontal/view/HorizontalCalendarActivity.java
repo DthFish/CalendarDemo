@@ -46,7 +46,22 @@ public class HorizontalCalendarActivity extends AppCompatActivity implements IHo
         integers.add(1);
         integers.add(7);
         mAdapter.setSelectWeekday(integers);
-        List<CalendarItem> calendarItems = mAdapter.getLists().get(mVp.getCurrentItem());
+        mVp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mBtn.setText(mAdapter.getPageTitle(position));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private void initView() {

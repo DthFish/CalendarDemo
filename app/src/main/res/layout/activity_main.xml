@@ -5,10 +5,12 @@
               android:layout_height="match_parent">
     <Button
         android:id="@+id/btn_horizontal"
+        android:text="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Button
         android:id="@+id/btn_vertical"
+        android:text="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>

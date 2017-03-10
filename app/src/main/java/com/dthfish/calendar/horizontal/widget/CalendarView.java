@@ -59,9 +59,9 @@ public class CalendarView extends RelativeLayout {
         mLlWeek.setVisibility(show ? VISIBLE : GONE);
     }
 
-    private CalendarAdapter.OnItemClickListener mListener = new CalendarAdapter.OnItemClickListener() {
+    /*private CalendarAdapter.OnItemClickListener mListener = new CalendarAdapter.OnItemClickListener() {
         @Override
-        public void onItemClick(int previousPosition, int currentPosition) {
+        public void onItemClick(*//*int previousPosition,*//* int currentPosition,int adapterIndex) {
             CalendarItem preItem = null;
             if (previousPosition != -1) {
                 //初始化的时候为-1
@@ -137,7 +137,7 @@ public class CalendarView extends RelativeLayout {
                 }
             }
         }
-    };
+    };*/
 
     public void setAdapter(CalendarAdapter adapter) {
         mAdapter = adapter;

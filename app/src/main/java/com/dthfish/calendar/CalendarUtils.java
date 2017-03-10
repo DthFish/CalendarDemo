@@ -181,7 +181,7 @@ public class CalendarUtils {
             //添加空白
             int startDayOfWeek = startCalendar.get(DAY_OF_WEEK);
             for (int i = 1; i < startDayOfWeek; i++) {
-                month.add(new CalendarItem(CalendarItem.TYPE_SPACE, ""));
+                month.add(new CalendarItem(CalendarItem.TYPE_SPACE, getTime(startCalendar.getTimeInMillis())));
             }
             //添加每月日期
             int actualMaximum = startCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);

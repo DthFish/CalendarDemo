@@ -19,10 +19,11 @@ import java.util.List;
 
 
 public class CalendarAdapter extends RecyclerView.Adapter {
+    private final int mAdapterIndex;
     private LayoutInflater mInflater;
     private Context mContext;
     private List<CalendarItem> mData = new ArrayList<>();
-    private int mPreviousPosition = -1;//之前点击过的坐标
+//    private int mPreviousPosition = -1;//之前点击过的坐标
 
     private SparseArray<CalendarItem> mSelectedItems = new SparseArray<>();
     /**
@@ -30,12 +31,13 @@ public class CalendarAdapter extends RecyclerView.Adapter {
      */
     private ArrayList<Integer> mSelectedWeekdays = new ArrayList<>();
 
-    public CalendarAdapter(Context context) {
+    public CalendarAdapter(Context context,int adapterIndex) {
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
         for (int i = 1; i <= 7; i++) {
             mSelectedWeekdays.add(i);
         }
+        mAdapterIndex = adapterIndex;
     }
 
     public void setData(List<CalendarItem> data) {
@@ -88,8 +90,8 @@ public class CalendarAdapter extends RecyclerView.Adapter {
                     public void onClick(View v) {
 
                         if (null != mItemClickListener && item.isSelectable) {
-                            mItemClickListener.onItemClick(mPreviousPosition, position);
-                            mPreviousPosition = position;
+                            mItemClickListener.onItemClick(/*mPreviousPosition,*/ position,mAdapterIndex);
+//                            mPreviousPosition = position;
                             //可以选择的时候才记录
                         }
                     }
@@ -111,6 +113,10 @@ public class CalendarAdapter extends RecyclerView.Adapter {
             return 0;
         }
         return mData.size();
+    }
+
+    public List<CalendarItem> getData() {
+        return mData;
     }
 
     @Override
@@ -155,7 +161,7 @@ public class CalendarAdapter extends RecyclerView.Adapter {
 
     public interface OnItemClickListener {
 
-        void onItemClick(int previousPosition, int currentPosition);
+        void onItemClick(/*int previousPosition,*/ int currentPosition,int adapterIndex);
     }
 
     public void setSelectWeekday(ArrayList<Integer> days) {
