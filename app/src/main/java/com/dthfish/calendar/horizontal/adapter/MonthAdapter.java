@@ -196,7 +196,7 @@ public class MonthAdapter extends PagerAdapter {
                                 if (i == mPreClickedAdapterIndex) {
                                     //前一次点击的页面刷新大于等于mPreClickedPosition 的item
                                     for (int j = 0, size1 = calendarAdapter.getItemCount(); j < size1; j++) {
-                                        if (j >= mPreClickedAdapterIndex) {
+                                        if (j >= mPreClickedPosition) {
                                             CalendarItem item = calendarAdapter.getItem(j);
                                             if (item.isSelectable) {
                                                 item.isSelected = true;
