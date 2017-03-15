@@ -141,6 +141,7 @@ public class CalendarView extends RelativeLayout {
 
     public void setAdapter(CalendarAdapter adapter) {
         mAdapter = adapter;
+//        mAdapter.setOnItemClickListener(mListener);
         mRvCalendar.setAdapter(mAdapter);
     }
 

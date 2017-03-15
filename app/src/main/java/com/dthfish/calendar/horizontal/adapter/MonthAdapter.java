@@ -218,10 +218,11 @@ public class MonthAdapter extends PagerAdapter {
                                     }
                                 } else {
                                     //其余刷新全部
-                                    for (CalendarItem item : calendarAdapter.getData()) {
+                                    for (int j = 0, size1 = calendarAdapter.getItemCount(); j < size1; j++) {
+                                        CalendarItem item = calendarAdapter.getItem(j);
                                         if (item.isSelectable) {
                                             item.isSelected = true;
-                                            calendarAdapter.putSelectedItem(i, item);
+                                            calendarAdapter.putSelectedItem(j, item);
                                         }
                                     }
                                 }
